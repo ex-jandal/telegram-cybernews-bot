@@ -1,0 +1,36 @@
+[bot]
+poll_interval_minutes = 20
+message_delay_seconds = 0.0
+batch_size = 5
+batch_cooldown_seconds = 120
+summary_max_chars = 500
+
+[display]
+# "preview" — Telegram link previews (auto thumbnail from URL)
+# "rss"     — Extract thumbnail from RSS feed, send as photo
+thumbnail_mode = "preview"
+
+[translation]
+enabled = true
+target_lang = "ar"
+# source_lang = "en"  # auto-detected by default
+
+[sources]
+feeds = [
+    "https://thehackernews.com/feeds/posts/default",
+    "https://www.bleepingcomputer.com/feed/",
+    "https://krebsonsecurity.com/feed/",
+    "https://www.securityweek.com/feed/",
+    "https://www.darkreading.com/rss.xml",
+]
+
+[groups]
+# Add group chat IDs here to pre-subscribe them on startup.
+# Find your group's ID by adding @userinfobot to the group.
+chat_ids = [-1002108389122, -1004222247138]
+
+# Optional: set a specific forum topic for each group.
+# Key = chat_id as string, value = topic_id (message_thread_id).
+# If not set, news go to the General topic.
+[groups.topics]
+"-1004222247138" = 12
