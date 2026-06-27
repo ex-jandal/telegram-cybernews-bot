@@ -22,6 +22,10 @@ feeds = [
     "https://krebsonsecurity.com/feed/",
     "https://www.securityweek.com/feed/",
     "https://www.darkreading.com/rss.xml",
+    "https://www.linuxjournal.com/node/feed",
+    "https://www.phoronix.com/rss.php",
+    "https://omgubuntu.co.uk/feed",
+    "https://blogs.kde.org/index.xml",
 ]
 
 [groups]
