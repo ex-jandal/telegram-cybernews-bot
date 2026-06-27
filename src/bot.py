@@ -27,13 +27,13 @@ from src.fetcher import clean_summary, get_new_articles, translate_article
 logger = logging.getLogger(__name__)
 
 COMMANDS = """
-• /news — Fetch and send latest cybersecurity news
-• /status — Show bot status and subscriber count
-• /subscribe — (Admins/owners only) Subscribe this chat to automatic news
-• /unsubscribe — (Admins/owners only) Unsubscribe this chat
-• /settopic <id> — (Admins/owners only) Set forum topic for news in this chat
-• /sources — Show configured news sources
-• /help — Show this message
+• /news — جلب وإرسال آخر أخبار الأمن السيبراني
+• /status — إظهار حالة البوت وعدد المشتركين
+• /subscribe — (الأدمن/المالكون فقط) تسجيل هذا القروب للحصول على الاخبار تلقائيا
+• /unsubscribe — (الأدمن/المالكون فقط) إلغاء الإشتراك
+• /settopic <id> — (الأدمن/المالكون فقط) قم بتعيين فورم معين من الشات لأرسال الأخبار
+• /sources — إظهار مصادر الأخبار التي تم تحديدها
+• /help — إظهار رسالة المساعدة
 """
 
 ALLOWED_CHAT_TYPES = ("group", "supergroup", "channel")
@@ -160,7 +160,10 @@ async def _is_admin(chat, user_id: int) -> bool:
 
 async def start(update: Update, _context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(
-        f"Welcome! I send cybersecurity news to this group.\n\n{COMMANDS}"
+        f"🔒 **روبوت أخبار الأمن السيبراني**\n\n"
+        f"أحصل على آخر الأخبار من أهم مصادر الأمن السيبراني و "
+        f"أرسلها إلى مجموعتك تلقائيًا.\n{COMMANDS}",
+        parse_mode=ParseMode.MARKDOWN
     )
 
 
