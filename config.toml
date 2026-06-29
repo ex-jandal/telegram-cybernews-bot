@@ -25,6 +25,8 @@ feeds = [
     "https://www.linuxjournal.com/node/feed",
     "https://www.phoronix.com/rss.php",
     "https://omgubuntu.co.uk/feed",
+    "https://isc.sans.edu/dailypodcast.xml",
+    "https://www.ncsc.gov.uk/api/1/services/v1/all-rss-feed.xml",
 ]
 
 [groups]
