@@ -32,7 +32,7 @@ feeds = [
 [groups]
 # Add group chat IDs here to pre-subscribe them on startup.
 # Find your group's ID by adding @userinfobot to the group.
-chat_ids = [-1002108389122, -1004222247138]
+chat_ids = [-1002108389122, -1004222247138, -1001723358338]
 
 # Optional: set a specific forum topic for each group.
 # Key = chat_id as string, value = topic_id (message_thread_id).
