@@ -1,9 +1,9 @@
 [bot]
-poll_interval_minutes = 20
-message_delay_seconds = 0.0
-batch_size = 5
-batch_cooldown_seconds = 120
-summary_max_chars = 500
+poll_interval_minutes = 30
+message_delay_seconds = 3600.0
+batch_size = 1
+batch_cooldown_seconds = 0
+summary_max_chars = 700
 
 [display]
 # "preview" — Telegram link previews (auto thumbnail from URL)
