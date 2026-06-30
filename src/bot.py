@@ -91,14 +91,16 @@ async def _send_article_to_chat(
     message_thread_id: int | None = None,
     target_lang: str | None = None,
     thumbnail_mode: str = "preview",
+    mark_as_delivered: bool = True,
 ) -> bool:
     h = link_hash(article.url)
     key = (chat_id, h)
-    if key in _in_flight:
-        return True
-    _in_flight.add(key)
+    if mark_as_delivered:
+        if key in _in_flight:
+            return True
+        _in_flight.add(key)
     try:
-        if is_group_article_sent(chat_id, h):
+        if mark_as_delivered and is_group_article_sent(chat_id, h):
             return True
 
         if target_lang:
@@ -125,8 +127,9 @@ async def _send_article_to_chat(
                 kwargs["message_thread_id"] = message_thread_id
             await bot.send_message(**kwargs)
 
-        mark_group_article_sent(chat_id, h)
-        mark_article_sent(article.title, article.url, article.source, article.published)
+        if mark_as_delivered:
+            mark_group_article_sent(chat_id, h)
+            mark_article_sent(article.title, article.url, article.source, article.published)
         if delay > 0:
             await asyncio.sleep(delay)
         return True
@@ -134,7 +137,8 @@ async def _send_article_to_chat(
         logger.error("Failed to send article to %s: %s", chat_id, e)
         return False
     finally:
-        _in_flight.discard(key)
+        if mark_as_delivered:
+            _in_flight.discard(key)
 
 
 def _get_config(context_or_app) -> tuple:
@@ -191,7 +195,7 @@ async def status(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 async def news(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     chat_id = update.effective_chat.id
     thread_id = update.message.message_thread_id
-    feeds, delay, batch_sz, _cooldown, summary_max, target_lang, thumbnail_mode = _get_config(context)
+    feeds, _delay, _batch_sz, _cooldown, summary_max, target_lang, thumbnail_mode = _get_config(context)
 
     if not feeds:
         await update.message.reply_text("No news sources configured.")
@@ -210,15 +214,15 @@ async def news(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         await sent.edit_text("No new articles for this chat.")
         return
 
-    target = unsent[:batch_sz]
+    target = unsent
     await sent.edit_text(f"Sending {len(target)} articles...")
 
     delivered = 0
     for article in target:
         ok = await _send_article_to_chat(
-            context.bot, chat_id, article, delay, summary_max,
+            context.bot, chat_id, article, 0, summary_max,
             message_thread_id=thread_id, target_lang=target_lang,
-            thumbnail_mode=thumbnail_mode,
+            thumbnail_mode=thumbnail_mode, mark_as_delivered=False,
         )
         if ok:
             delivered += 1
